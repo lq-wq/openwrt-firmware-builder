@@ -1,21 +1,24 @@
 #!/bin/bash
 
 # 交互式输入编译相关信息
-read -p "请输入后台管理IP (默认: 192.168.1.1): " BACKEND_IP
+read -p "请输入后台管理IP (默认: 192.168.6.1): " BACKEND_IP
 BACKEND_IP=${BACKEND_IP:-192.168.6.1}
 
-read -p "请输入主题 (默认: bootstrap): " THEME
+read -p "请输入主题 (默认: argon): " THEME
 THEME=${THEME:-argon}
 
-read -p "请输入内核版本 (默认: 5.10): " KERNEL_VERSION
+read -p "请输入内核版本 (默认: 6.6): " KERNEL_VERSION
 KERNEL_VERSION=${KERNEL_VERSION:-6.6}
 
-read -p "请输入系统分区大小 (默认: 128M): " PARTITION_SIZE
+read -p "请输入系统分区大小 (默认: 2048M): " PARTITION_SIZE
 PARTITION_SIZE=${PARTITION_SIZE:-2048M}
 
+read -p "请输入编译作者信息 (默认: 04543473): " AUTHOR
+AUTHOR=${AUTHOR:-04543473}
+
 # 设置变量
-OPENWRT_DIR="openwrt-NITT"
-SIGNATURE="04543473 Build $(TZ=UTC-8 date "+%Y.%m.%d") by $AUTHOR"
+OPENWRT_DIR="openwrt"
+SIGNATURE="Custom Build $(TZ=UTC-8 date "+%Y.%m.%d") by $AUTHOR"
 PASSWORD=""
 
 # 更新和安装依赖
@@ -48,7 +51,7 @@ echo "echo '$SIGNATURE' > /etc/openwrt_release" >> package/base-files/files/etc/
 # 增加AdGuardHome插件和核心
 git clone https://github.com/kongfl888/luci-app-adguardhome.git package/luci-app-adguardhome
 
-# 增加OpenClash时,并下载核心
+# 增加OpenClash时,把核心下载好
 git clone https://github.com/vernesong/OpenClash.git package/OpenClash
 
 # 添加自定义软件源和个别软件
