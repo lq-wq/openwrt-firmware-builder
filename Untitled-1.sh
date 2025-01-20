@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # 设置变量
-OPENWRT_DIR="openwrt"
-BACKEND_IP="192.168.1.1"
-THEME="bootstrap"
-KERNEL_VERSION="5.10"
+OPENWRT_DIR="openwrt-NITT"
+BACKEND_IP="192.168.6.1"
+THEME="argon"
+KERNEL_VERSION="6.6"
 PARTITION_SIZE="128M"
-SIGNATURE="Custom Build $(TZ=UTC-8 date "+%Y.%m.%d")"
+SIGNATURE="04543473 Build $(TZ=UTC-8 date "+%Y.%m.%d")"
 CUSTOM_SOFTWARE="vim htop"
 EXCLUDE_FILES=("kmod-usb-storage" "luci-app-ddns")
 
@@ -44,7 +44,7 @@ git clone https://github.com/kongfl888/luci-app-adguardhome.git package/luci-app
 git clone https://github.com/vernesong/OpenClash.git package/OpenClash
 
 # 添加自定义软件源和个别软件
-echo "src-git custom https://github.com/custom/repo.git" >> feeds.conf.default
+echo "src-git cdny https://github.com/cdny123/openwrt-package1.git" >> feeds.conf.default
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 echo "CONFIG_PACKAGE_$CUSTOM_SOFTWARE=y" >> .config
