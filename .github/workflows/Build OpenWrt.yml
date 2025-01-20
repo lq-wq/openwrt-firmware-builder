@@ -24,25 +24,11 @@ jobs:
         export THEME="argon"
         export KERNEL_VERSION="6.6"
         export PARTITION_SIZE="2048M"
-        export AUTHOR="GitHub Actions"
+        export AUTHOR="04543473"
         export CUSTOM_SOFTWARE="vim htop"
         export EXCLUDE_FILES="kmod-usb-storage luci-app-ddns"
         export Enable_IPV6_function="0"
         export Enable_IPV4_function="1"
-        chmod +x Untitled-1.sh
-        ./Untitled-1.sh
-
-    - name: Run build script with IPv6
-      run: |
-        export BACKEND_IP="2001:db8::1"
-        export THEME="bootstrap"
-        export KERNEL_VERSION="5.10"
-        export PARTITION_SIZE="128M"
-        export AUTHOR="GitHub Actions"
-        export CUSTOM_SOFTWARE="vim htop"
-        export EXCLUDE_FILES="kmod-usb-storage luci-app-ddns"
-        export Enable_IPV6_function="1"
-        export Enable_IPV4_function="0"
         chmod +x Untitled-1.sh
         ./Untitled-1.sh
 
@@ -65,14 +51,4 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
         asset_name: openwrt-x86-64-generic-squashfs-combined-ipv4.img.gz
-        asset_content_type: application/gzip
-
-    - name: Upload firmware to GitHub Releases (IPv6)
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
-        asset_name: openwrt-x86-64-generic-squashfs-combined-ipv6.img.gz
         asset_content_type: application/gzip
