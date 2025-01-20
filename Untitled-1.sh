@@ -5,10 +5,26 @@ OPENWRT_DIR="openwrt-NITT"
 BACKEND_IP="192.168.6.1"
 THEME="argon"
 KERNEL_VERSION="6.6"
-PARTITION_SIZE="128M"
-SIGNATURE="04543473 Build $(TZ=UTC-8 date "+%Y.%m.%d")"
+PARTITION_SIZE="2048M"
+SIGNATURE="04543473Build $(TZ=UTC-8 date "+%Y.%m.%d")"
 CUSTOM_SOFTWARE="vim htop"
 EXCLUDE_FILES=("kmod-usb-storage" "luci-app-ddns")
+
+# 设置IPv6和IPv4选项
+export Enable_IPV6_function="0"             # 编译IPV6固件(1为启用命令,填0为不作修改)(如果跟Enable_IPV4_function一起启用命令的话,此命令会自动关闭)
+export Enable_IPV4_function="1"             # 编译IPV4固件(1为启用命令,填0为不作修改)(如果跟Enable_IPV6_function一起启用命令的话,此命令会自动关闭)
+
+# 检查IPv6和IPv4选项
+if [ "$Enable_IPV6_function" -eq 1 ]; then
+    BACKEND_IP="2001:db8::1"
+    Enable_IPV4_function="0"
+elif [ "$Enable_IPV4_function" -eq 1 ]; then
+    BACKEND_IP="192.168.1.1"
+    Enable_IPV6_function="0"
+else
+    echo "未选择IPv4或IPv6，使用默认IPv4"
+    BACKEND_IP="192.168.1.1"
+fi
 
 # 更新和安装依赖
 sudo apt-get update
