@@ -18,8 +18,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential git-core libncurses5-dev zlib1g-dev gawk flex quilt libssl-dev xsltproc libxml-parser-perl mercurial bzr ecj cvs unzip python3 python3-pip wget
 
-    - name: Run build script
+    - name: Run build script with IPv4
       run: |
+        export Enable_IPV6_function="0"
+        export Enable_IPV4_function="1"
+        chmod +x Untitled-1.sh
+        ./Untitled-1.sh
+
+    - name: Run build script with IPv6
+      run: |
+        export Enable_IPV6_function="1"
+        export Enable_IPV4_function="0"
         chmod +x Untitled-1.sh
         ./Untitled-1.sh
 
@@ -27,19 +36,29 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref_name }}
         release_name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
 
-    - name: Upload firmware to GitHub Releases
+    - name: Upload firmware to GitHub Releases (IPv4)
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
-        asset_name: openwrt-x86-64-generic-squashfs-combined.img.gz
+        asset_name: openwrt-x86-64-generic-squashfs-combined-ipv4.img.gz
+        asset_content_type: application/gzip
+
+    - name: Upload firmware to GitHub Releases (IPv6)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
+        asset_name: openwrt-x86-64-generic-squashfs-combined-ipv6.img.gz
         asset_content_type: application/gzip
