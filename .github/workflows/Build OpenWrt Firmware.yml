@@ -23,11 +23,23 @@ jobs:
         chmod +x Untitled-1.sh
         ./Untitled-1.sh
 
-    - name: Upload firmware to GitHub Releases
-      uses: svenstaro/upload-release-action@v2-release
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
+        tag_name: ${{ github.ref_name }}
+        release_name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: Upload firmware to GitHub Releases
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
         asset_name: openwrt-x86-64-generic-squashfs-combined.img.gz
-        tag: ${{ github.ref_name }}
-        overwrite: true
+        asset_content_type: application/gzip
