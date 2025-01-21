@@ -27,8 +27,6 @@ jobs:
         export AUTHOR="04543473"
         export CUSTOM_SOFTWARE="vim htop"
         export EXCLUDE_FILES="kmod-usb-storage luci-app-ddns"
-        export Enable_IPV6_function="0"
-        export Enable_IPV4_function="1"
         chmod +x Untitled-1.sh
         ./Untitled-1.sh
 
@@ -52,3 +50,10 @@ jobs:
         asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
         asset_name: openwrt-x86-64-generic-squashfs-combined-ipv4.img.gz
         asset_content_type: application/gzip
+
+    - name: Clean up to free space
+      run: |
+        sudo apt-get clean
+        sudo rm -rf /var/lib/apt/lists/*
+        sudo rm -rf /tmp/*
+        sudo rm -rf /home/runner/work/_temp/*
