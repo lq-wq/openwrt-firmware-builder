@@ -83,11 +83,12 @@ done
 # 设置后台登录密码为空
 sed -i 's/option password .*/option password ""/' package/base-files/files/etc/config/system
 
+# 清理不必要的文件以释放磁盘空间
+sudo apt-get clean
+sudo rm -rf /var/lib/apt/lists/*
+
 # 编译固件
 make -j$(nproc)
-
-# 清理不必要的文件
-make dirclean
 
 # 清理不需要的文件
 for file in "${EXCLUDE_FILES[@]}"; do
