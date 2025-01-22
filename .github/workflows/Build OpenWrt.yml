@@ -30,6 +30,16 @@ jobs:
         chmod +x Untitled-1.sh
         ./Untitled-1.sh
 
+    - name: Clean up after build
+      run: |
+        # 删除OpenWrt源码目录以释放空间
+        rm -rf openwrt
+        # 删除临时文件
+        sudo rm -rf /tmp/*
+        # 删除APT缓存和包列表
+        sudo apt-get clean
+        sudo rm -rf /var/lib/apt/lists/*
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -50,3 +60,8 @@ jobs:
         asset_path: ./openwrt/bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img.gz
         asset_name: openwrt-x86-64-generic-squashfs-combined-ipv4.img.gz
         asset_content_type: application/gzip
+
+    - name: Clean up after release
+      run: |
+        # 删除固件文件以释放空间
+        rm -rf openwrt/bin/targets/x86/64/*
