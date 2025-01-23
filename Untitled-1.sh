@@ -25,10 +25,6 @@ PASSWORD=""
 sudo apt-get update
 sudo apt-get install -y build-essential git-core libncurses5-dev zlib1g-dev gawk flex quilt libssl-dev xsltproc libxml-parser-perl mercurial bzr ecj cvs unzip python3 python3-pip wget
 
-# 清理APT缓存和包列表
-sudo apt-get clean
-sudo rm -rf /var/lib/apt/lists/*
-
 # 克隆OpenWrt源码
 git clone https://git.openwrt.org/openwrt/openwrt.git $OPENWRT_DIR
 cd $OPENWRT_DIR
@@ -88,6 +84,8 @@ done
 sed -i 's/option password .*/option password ""/' package/base-files/files/etc/config/system
 
 # 清理不必要的文件以释放磁盘空间
+sudo apt-get clean
+sudo rm -rf /var/lib/apt/lists/*
 sudo rm -rf /tmp/*
 
 # 编译固件
@@ -107,7 +105,8 @@ sudo rm -rf /home/runner/runners/2.321.0/_diag/*
 # 删除GitHub Actions缓存
 sudo rm -rf /home/runner/work/_temp/*
 
-# 删除不必要的缓存文件
-sudo rm -rf /home/runner/.cache/*
+# 删除不必要的缓存和临时文件
+sudo rm -rf /home/runner/work/_actions/*
+sudo rm -rf /home/runner/work/_temp/*
 
 echo "固件编译完成，位于 bin/targets/x86/64/ 目录下"
