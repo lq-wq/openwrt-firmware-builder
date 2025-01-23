@@ -39,12 +39,6 @@ jobs:
         # 删除APT缓存和包列表
         sudo apt-get clean
         sudo rm -rf /var/lib/apt/lists/*
-        # 删除GitHub Actions日志文件
-        sudo rm -rf /home/runner/runners/2.321.0/_diag/*
-        # 删除GitHub Actions缓存
-        sudo rm -rf /home/runner/work/_temp/*
-        # 删除不必要的缓存和临时文件
-        sudo rm -rf /home/runner/work/_actions/*
 
     - name: Create Release
       id: create_release
@@ -71,14 +65,3 @@ jobs:
       run: |
         # 删除固件文件以释放空间
         rm -rf openwrt/bin/targets/x86/64/*
-        # 删除临时文件
-        sudo rm -rf /tmp/*
-        # 删除APT缓存和包列表
-        sudo apt-get clean
-        sudo rm -rf /var/lib/apt/lists/*
-        # 删除GitHub Actions日志文件
-        sudo rm -rf /home/runner/runners/2.321.0/_diag/*
-        # 删除GitHub Actions缓存
-        sudo rm -rf /home/runner/work/_temp/*
-        # 删除不必要的缓存和临时文件
-        sudo rm -rf /home/runner/work/_actions/*
