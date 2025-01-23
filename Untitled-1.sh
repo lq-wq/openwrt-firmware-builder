@@ -105,8 +105,4 @@ sudo rm -rf /home/runner/runners/2.321.0/_diag/*
 # 删除GitHub Actions缓存
 sudo rm -rf /home/runner/work/_temp/*
 
-# 删除不必要的缓存和临时文件
-sudo rm -rf /home/runner/work/_actions/*
-sudo rm -rf /home/runner/work/_temp/*
-
 echo "固件编译完成，位于 bin/targets/x86/64/ 目录下"
